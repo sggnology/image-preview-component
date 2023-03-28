@@ -1,53 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js" integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css"
+        integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+        integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js"
+        integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
-<body>
-    
-    <form>
-        <input type="file" accept="image/*" data-image-file hidden>
-        <div class="row">
-            <div class="col-2">
 
+<body>
+
+    <form>
+        <div class="row ms-5 mt-5">
+            <div class="col-2">
                 <div style="border: 2px #6c757d solid; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                    <input type="file" accept="image/*" data-image-file hidden>
                     <div style="display: flex; justify-content: center;">
-                        <img data-image-preview src="./no-pictures.png" style="width: 100px; height: 100px; padding: 10px 0 10px; object-fit: cover;">
+                        <img data-image-preview src="./no-pictures.png"
+                            style="width: 100px; height: 100px; padding: 10px 0 10px; object-fit: contain;">
                     </div>
-                    <div style="display: flex; justify-content: center; align-items: center; width: 100%; overflow-wrap: anywhere;">
+                    <div
+                        style="display: flex; justify-content: center; align-items: center; width: 100%; overflow-wrap: anywhere;">
                         <div data-image-file-name style="padding: 5px;"></div>
                     </div>
                     <div style="display: flex; justify-content: center; align-items: center;">
                         <input data-image-file-path hidden>
-                        <button data-image-file-button 
-                            type="button" class="btn btn-outline-secondary w-100"
-                            style="border-top-width: 2px; border-left:0; border-bottom:0;border-right:0; border-radius: 0;">파일을 선택하여주세요.</button>
+                        <button data-image-file-button type="button" class="btn btn-outline-secondary w-100"
+                            style="border-top-width: 2px; border-left:0; border-bottom:0;border-right:0; border-radius: 0;">파일을
+                            선택하여주세요.</button>
                     </div>
                 </div>
             </div>
         </div>
+        
     </form>
 </body>
 <script>
-    
+
 
     /**
      * 설명
      * - reset 의 jQuery 대상이 form 태그일 경우에만 사용가능한 함수.
      * 
     */
-    $.fn.reset = function(){
+    $.fn.reset = function () {
         $(this)[0].reset();
 
         const customImagComponentExist = $(this).find("[data-image-preview]")
 
-        if(customImagComponentExist != null){
+        if (customImagComponentExist != null) {
             $(this).find("[data-image-preview]").attr("src", "./no-pictures.png");
             $(this).find("[data-image-file-name]").text("");
         }
@@ -79,7 +89,7 @@
      * - 컴포넌트에서 file path input 의 값을 바꾸는 동작 재정의
      * - .val(..)로 값을 바꿀경우 "change" 이벤트가 발생하지 않음으로 추가 처리
     */
-    $.fn.changeImageFilePath = function(filePath) {
+    $.fn.changeImageFilePath = function (filePath) {
         return this.val(filePath).trigger("change");
     }
 
@@ -90,7 +100,7 @@
     $imageFile.on("change", async (e) => {
         const file = e.target.files[0];
 
-        if(1000*1000*10 < file.size){
+        if (1000 * 1000 * 10 < file.size) {
             alert("파일의 크기가 10MB 가 넘습니다. 더 작은 크기의 이미지를 입력하여주세요.");
             return;
         }
@@ -102,9 +112,10 @@
         $imageFileName.text(file.name);
     });
 
-    $imageFilePath.on("change", (e) =>{
+    $imageFilePath.on("change", (e) => {
         $imagePreview.attr("src", e.target.value);
     });
 
 </script>
+
 </html>
