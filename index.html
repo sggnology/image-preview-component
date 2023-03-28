@@ -13,18 +13,23 @@
     
     <form>
         <input type="file" accept="image/*" data-image-file hidden>
-        <div style="border: 2px #6c757d solid; border-top-left-radius: 10px; border-top-right-radius: 10px;">
-            <div style="display: flex; justify-content: center;">
-                <img data-image-preview src="./no-pictures.png" style="width: 100px; height: 100px; padding: 10px 0 10px;">
-            </div>
-            <div style="display: flex; justify-content: center; align-items: center;">
-                <span data-image-file-name style="padding: 5px 0 5px;"></span>
-            </div>
-            <div style="display: flex; justify-content: center; align-items: center;">
-                <input data-image-file-path hidden>
-                <button data-image-file-button 
-                    type="button" class="btn btn-outline-secondary w-100"
-                    style="border-top-width: 2px; border-left:0; border-bottom:0;border-right:0; border-radius: 0;">파일을 선택하여주세요.</button>
+        <div class="row">
+            <div class="col-2">
+
+                <div style="border: 2px #6c757d solid; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                    <div style="display: flex; justify-content: center;">
+                        <img data-image-preview src="./no-pictures.png" style="width: 100px; height: 100px; padding: 10px 0 10px; object-fit: cover;">
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; width: 100%; overflow-wrap: anywhere;">
+                        <div data-image-file-name style="padding: 5px;"></div>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <input data-image-file-path hidden>
+                        <button data-image-file-button 
+                            type="button" class="btn btn-outline-secondary w-100"
+                            style="border-top-width: 2px; border-left:0; border-bottom:0;border-right:0; border-radius: 0;">파일을 선택하여주세요.</button>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
