@@ -22,7 +22,28 @@
     <form>
         <div class="row ms-5 mt-5">
             <div class="col-2">
-                <div style="border: 2px #6c757d solid; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                <div data-image-file-component="test1"
+                    style="border: 2px #6c757d solid; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                    <input type="file" accept="image/*" data-image-file hidden>
+                    <div style="display: flex; justify-content: center;">
+                        <img data-image-preview src="./no-pictures.png"
+                            style="width: 100px; height: 100px; padding: 10px 0 10px; object-fit: contain;">
+                    </div>
+                    <div
+                        style="display: flex; justify-content: center; align-items: center; width: 100%; overflow-wrap: anywhere;">
+                        <div data-image-file-name style="padding: 5px;"></div>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <input data-image-file-path hidden>
+                        <button data-image-file-button type="button" class="btn btn-outline-secondary w-100"
+                            style="border-top-width: 2px; border-left:0; border-bottom:0;border-right:0; border-radius: 0;">파일을
+                            선택하여주세요.</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div data-image-file-component="test2"
+                    style="border: 2px #6c757d solid; border-top-left-radius: 10px; border-top-right-radius: 10px;">
                     <input type="file" accept="image/*" data-image-file hidden>
                     <div style="display: flex; justify-content: center;">
                         <img data-image-preview src="./no-pictures.png"
@@ -41,7 +62,7 @@
                 </div>
             </div>
         </div>
-        
+
     </form>
 </body>
 <script>
@@ -53,7 +74,10 @@
      * 
     */
     $.fn.reset = function () {
-        $(this)[0].reset();
+
+        if($(this)[0].tagName.toLowerCase() === 'form'){
+            $(this)[0].reset();
+        }
 
         const customImagComponentExist = $(this).find("[data-image-preview]")
 
@@ -74,47 +98,60 @@
      * - reset 을 했을때 컴포넌트를 사용중이라면, 파일명과 preview 를 초기화하여준다.
     */
 
-    const $imageFile = $("[data-image-file]");
-    const $imageFileButton = $("[data-image-file-button]");
-    const $imageFilePath = $("[data-image-file-path]");
-    const $imageFileName = $("[data-image-file-name]");
-    const $imagePreview = $("[data-image-preview]");
+    const $imageFileComponent = $("[data-image-file-component]");
 
-    const TEST_IMAGE_URL = "https://img.freepik.com/free-photo/blue-abstract-gradient-wave-wallpaper_53876-108364.jpg";
+    $imageFileComponent.each(function (idx, ele) {
+        const $this = $(this);
 
-    $imageFilePath.attr("name", "custom-name");
+        const fileComponent = $this.data("image-file-component");
 
-    /**
-     * 설명
-     * - 컴포넌트에서 file path input 의 값을 바꾸는 동작 재정의
-     * - .val(..)로 값을 바꿀경우 "change" 이벤트가 발생하지 않음으로 추가 처리
-    */
-    $.fn.changeImageFilePath = function (filePath) {
-        return this.val(filePath).trigger("change");
-    }
+        const $imageFile = $this.find("[data-image-file]");
+        const $imageFileButton = $this.find("[data-image-file-button]");
+        const $imageFilePath = $this.find("[data-image-file-path]");
+        const $imageFileName = $this.find("[data-image-file-name]");
+        const $imagePreview = $this.find("[data-image-preview]");
 
-    $imageFileButton.on("click", () => {
-        $imageFile.click();
-    })
+        const TEST_IMAGE_URL = "https://img.freepik.com/free-photo/blue-abstract-gradient-wave-wallpaper_53876-108364.jpg";
 
-    $imageFile.on("change", async (e) => {
-        const file = e.target.files[0];
+        /**
+         * 설명
+         * - data-image-file-component 에 입력된 데이터가 filePath input 의 name 이다.
+        */
+        $imageFilePath.attr("name", fileComponent);
 
-        if (1000 * 1000 * 10 < file.size) {
-            alert("파일의 크기가 10MB 가 넘습니다. 더 작은 크기의 이미지를 입력하여주세요.");
-            return;
+        /**
+         * 설명
+         * - 컴포넌트에서 file path input 의 값을 바꾸는 동작 재정의
+         * - .val(..)로 값을 바꿀경우 "change" 이벤트가 발생하지 않음으로 추가 처리
+        */
+        $.fn.changeImageFilePath = function (filePath) {
+            return this.val(filePath).trigger("change");
         }
 
-        // TODO 파일 업로드
+        $imageFileButton.on("click", () => {
+            $imageFile.click();
+        })
 
-        // TODO 업로드된 파일의 경로를 추출하여 $imageFilePath 의 값으로 넣어줘야함
-        $imageFilePath.changeImageFilePath(TEST_IMAGE_URL);
-        $imageFileName.text(file.name);
-    });
+        $imageFile.on("change", async (e) => {
+            const file = e.target.files[0];
 
-    $imageFilePath.on("change", (e) => {
-        $imagePreview.attr("src", e.target.value);
+            if (1000 * 1000 * 10 < file.size) {
+                alert("파일의 크기가 10MB 가 넘습니다. 더 작은 크기의 이미지를 입력하여주세요.");
+                return;
+            }
+
+            // TODO 파일 업로드
+
+            // TODO 업로드된 파일의 경로를 추출하여 $imageFilePath 의 값으로 넣어줘야함
+            $imageFilePath.changeImageFilePath(TEST_IMAGE_URL);
+            $imageFileName.text(file.name);
+        });
+
+        $imageFilePath.on("change", (e) => {
+            $imagePreview.attr("src", e.target.value);
+        });
     });
+    
 
 </script>
 
