@@ -26,7 +26,7 @@
                     style="border: 2px #6c757d solid; border-top-left-radius: 10px; border-top-right-radius: 10px;">
                     <input type="file" accept="image/*" data-image-file hidden>
                     <div style="display: flex; justify-content: center;">
-                        <img data-image-preview src="./no-pictures.png"
+                        <img data-image-preview src="./assets/no-pictures.png"
                             style="width: 100px; height: 100px; padding: 10px 0 10px; object-fit: contain;">
                     </div>
                     <div
@@ -46,7 +46,7 @@
                     style="border: 2px #6c757d solid; border-top-left-radius: 10px; border-top-right-radius: 10px;">
                     <input type="file" accept="image/*" data-image-file hidden>
                     <div style="display: flex; justify-content: center;">
-                        <img data-image-preview src="./no-pictures.png"
+                        <img data-image-preview src="./assets/no-pictures.png"
                             style="width: 100px; height: 100px; padding: 10px 0 10px; object-fit: contain;">
                     </div>
                     <div
@@ -82,7 +82,7 @@
         const customImagComponentExist = $(this).find("[data-image-preview]")
 
         if (customImagComponentExist != null) {
-            $(this).find("[data-image-preview]").attr("src", "./no-pictures.png");
+            $(this).find("[data-image-preview]").attr("src", "./assets/no-pictures.png");
             $(this).find("[data-image-file-name]").text("");
         }
     }
